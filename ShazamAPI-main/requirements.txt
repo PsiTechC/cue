@@ -1,0 +1,7 @@
+Flask
+requests
+mutagen
+ShazamAPI
+Flask-Cors
+python-dotenv
+Werkzeug
