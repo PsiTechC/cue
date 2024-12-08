@@ -2526,7 +2526,7 @@ app.config["TS_FOLDER"] = tempfile.gettempdir()
 transcription_result = []
 
 # Eleven Labs API credentials (replace with your actual API key)
-ELEVEN_LABS_API_KEY = "AIzaSyBuZGV_qCaDZyxe4kQ-OGK3qFcVS5H-QNw"
+ELEVEN_LABS_API_KEY = "-"
 ELEVEN_LABS_URL = "https://api.elevenlabs.io/v1/speech-to-text"
 
 class WhisperSpeechProcessorThread(QThread):
