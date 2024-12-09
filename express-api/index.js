@@ -24,7 +24,16 @@ app.use((req, res, next) => {
   next();
 });
 
-app.options('*', cors()); // Preflight requests for all routes
+// CORS middleware configuration
+app.use(cors({
+  origin: process.env.REACT_FE || 'http://localhost:3000', // Allow frontend URL or fallback to localhost
+  credentials: true, // Allow cookies and credentials
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+}));
+
+// Preflight requests
+app.options('*', cors());
 
 // Serve static files from the React app
 
