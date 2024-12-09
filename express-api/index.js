@@ -16,21 +16,25 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log('CORS Debug:', {
-    origin: req.headers.origin,
-    allowed: process.env.REACT_FE,
-  });
-  next();
-});
-
-// CORS middleware configuration
-app.use(cors({
-  origin: process.env.REACT_FE || 'http://localhost:3000', // Allow frontend URL or fallback to localhost
+const corsOptions = {
+  origin: (origin, callback) => {
+    const allowedOrigin = process.env.REACT_FE;
+    if (!origin || origin === allowedOrigin) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true, // Allow cookies and credentials
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-}));
+};
+app.use((req, res, next) => {
+  console.log('Response Headers:', res.getHeaders());
+  next();
+});
+
+app.use(cors(corsOptions));
 
 // Preflight requests
 app.options('*', cors());
