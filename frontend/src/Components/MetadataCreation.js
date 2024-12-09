@@ -9,7 +9,8 @@ const MetadataCreation = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('');
   const [alertVisible, setAlertVisible] = useState(false); 
-  
+
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const commonMetadataFields = [
     'title', 'comment', 'artist', 'album', 'genre', 'description', 'copyright',
@@ -23,7 +24,7 @@ const MetadataCreation = () => {
       formData.append('video', file);
 
       try {
-        const response = await axios.post('http://localhost:6006/api/metadata/upload', formData, {
+        const response = await axios.post(`${API_BASE_URL}/api/metadata/upload`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         setMetadata({ ...response.data, filename: response.data.filename });
@@ -55,7 +56,7 @@ const MetadataCreation = () => {
         }, {}),
       };
 
-      const response = await axios.post('http://localhost:6006/api/metadata/save', payload);
+      const response = await axios.post(`${API_BASE_URL}/api/metadata/save`, payload);
 
       if (response.data.downloadPath) {
         setDownloadLink(`http://localhost:6006${response.data.downloadPath}`);
