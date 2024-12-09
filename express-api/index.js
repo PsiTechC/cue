@@ -16,12 +16,13 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 app.use(express.json());
 
-app.use(cors({
-  origin: 'http://localhost:3000', // Replace this with your actual frontend URL
-  credentials: true, // Allow cookies and credentials
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-}));
+app.use((req, res, next) => {
+  console.log('CORS Debug:', {
+    origin: req.headers.origin,
+    allowed: process.env.REACT_FE,
+  });
+  next();
+});
 
 app.options('*', cors()); // Preflight requests for all routes
 
